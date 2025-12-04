@@ -2,15 +2,12 @@ from django.urls import path
 from .views.home import home_page
 from .views.search_books_view import search_books_view
 from .views.book_detail import google_book_detail
-# from .views.authors import author_detail, author_list
+from .views.author_detail import author_detail_view
+
 
 urlpatterns = [
     path('', home_page, name='home_page'),
     path("search/", search_books_view, name="book_search"),
-    # path('books/', book_list, name='book_list'),
     path('book/<str:volume_id>/', google_book_detail, name='book_detail'),
-    # path('author/<int:pk>/', author_detail, name='author_detail'),
-    # path('authors/', author_list, name='author_list'),
-
-
+    path('author/<str:author_name>/', author_detail_view, name='author_detail'),
 ]

@@ -4,7 +4,11 @@
 <h1>{{ volume.title|default:"Untitled" }}</h1>
 
 {% if authors %}
-<p>Author: {{ authors|join:", " }}</p>
+<p>Author:
+    {% for author in authors %}
+        <a href="{% url 'author_detail' author %}">{{ author }}</a>{% if not forloop.last %}, {% endif %}
+    {% endfor %}
+</p>
 
 <h3>Other books by the author:</h3>
 <ul>
@@ -18,7 +22,6 @@
 </ul>
 {% endif %}
 
-{# Display book thumbnail if available #}
 {% if volume.imageLinks.thumbnail %}
     <img src="{{ volume.imageLinks.thumbnail }}" alt="Book cover of {{ volume.title }}">
 {% endif %}

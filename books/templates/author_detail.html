@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Books by {{ author_name }}</h1>
+
+<ul>
+    {% for book in books %}
+        <li>
+            <a href="{% url 'book_detail' book.id %}">{{ book.title }}</a>
+            ({{ book.published_year }})
+            {% if book.thumbnail %}
+                <img src="{{ book.thumbnail }}" alt="Cover of {{ book.title }}">
+            {% endif %}
+        </li>
+    {% empty %}
+        <li>No books found for this author.</li>
+    {% endfor %}
+</ul>
+
+<p><a href="{% url 'book_search' %}">Back to search</a></p>
+
+{% endblock %}
