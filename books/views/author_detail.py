@@ -1,42 +1,50 @@
-from django.shortcuts import render
+# books/views/author_detail.py
+from django.shortcuts import render, get_object_or_404
+from books.models import Book, Author
 from books.services.google_books import search_google_books
 from books.services.wiki_author import get_author_bio
 
+
 def author_detail_view(request, author_name):
     """
-    View to display all books by a specific author using Google Books API.
-
-    Args:
-        request (HttpRequest)
-        author_name (str): The name of the author.
-
-    Returns:
-        HttpResponse: Renders the author_detail.html template with the author's books.
+    View for displaying all books by a specific author from your DB,
+    with suggestions from Google Books and Open Library.
     """
-    items = search_google_books(author_name)
-    books = []
+    # --- Rozdělení jména autora ---
+    parts = author_name.split(" ", 1)
+    first_name = parts[0]
+    last_name = parts[1] if len(parts) > 1 else ""
 
-    for item in items:
-        volume = item.get("volumeInfo", {})
-        volume_id = item.get("id")
-        title = volume.get("title", "Untitled")
-        authors = volume.get("authors", [])
+    # --- 1) Books from your database ---
+    db_books = Book.objects.filter(
+        authors__first_name__iexact=first_name,
+        authors__last_name__iexact=last_name
+    )
 
-        # Only include books that have the exact same author
-        if volume_id and author_name in authors:
-            books.append({
-                "id": volume_id,
-                "title": title,
-                "published_year": volume.get("publishedDate", "N/A"),
-                "thumbnail": volume.get("imageLinks", {}).get("thumbnail")
-            })
+    # --- 2) Google Books suggestions ---
+    google_books = []
+    try:
+        for item in search_google_books(author_name):
+            info = item.get("volumeInfo", {})
+            authors = info.get("authors", [])
+            if author_name in authors:
+                google_books.append({
+                    "title": info.get("title", "Untitled"),
+                    "external_id": item.get("id"),
+                    "source": "google",
+                    "thumbnail": info.get("imageLinks", {}).get("thumbnail"),
+                })
+    except Exception:
+        google_books = []  # pokud Google Books API spadne, nic se nestane
 
-    # Get author bio from Wikipedia
+
+    # --- 4) Wikipedia bio ---
     author_bio = get_author_bio(author_name)
 
     context = {
         "author_name": author_name,
-        "books": books,
+        "db_books": db_books,
+        "google_books": google_books,
         "author_bio": author_bio
     }
 

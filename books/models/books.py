@@ -17,14 +17,25 @@ class Book(models.Model):
         (5, '5 Star')
     )
     title = models.CharField(max_length=100)
-    isbn = models.CharField(max_length=13, unique=True, verbose_name="ISBN")
+    isbn = models.CharField(max_length=13, unique=True, verbose_name="ISBN", blank=True, null=True)
     publisher = models.CharField(max_length=100, blank=True, null=True)
     pages = models.PositiveIntegerField(verbose_name="Number of pages", null=True, blank=True)
-    year = models.IntegerField(validators=[MinValueValidator(1900), MaxValueValidator(datetime.datetime.now().year)])
+    year = models.IntegerField(
+        validators=[MinValueValidator(1900), MaxValueValidator(datetime.datetime.now().year)],
+        null=True,
+        blank=True
+    )
     genre = models.ManyToManyField(Genre)
     rating = models.IntegerField(choices=STAR_CHOICES, default=0)
     description = models.TextField()
     authors = models.ManyToManyField(Author, related_name='books')
+    thumbnail = models.TextField(blank=True, null=True)
+
+    # External identifiers
+    google_id = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.title
+
+    def get_detail_url(self):
+        return f"/book/{self.id}/"

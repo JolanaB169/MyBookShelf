@@ -1,40 +1,53 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="author-detail-container">
+<h1>Books by {{ author_name }}</h1>
 
-    <h1>Books by {{ author_name }}</h1>
-
-    <!-- Author bio -->
-    {% if author_bio %}
+{% if author_bio %}
     <div class="author-bio">
-        <h3>About the author:</h3>
+        <h3>About the author</h3>
         <p>{{ author_bio|safe }}</p>
     </div>
-    {% endif %}
+{% endif %}
 
-    <!-- Books list -->
-    <div class="author-books">
-        {% for book in books %}
-        <div class="book-item">
-            {% if book.thumbnail %}
-                <img src="{{ book.thumbnail }}" alt="Cover of {{ book.title }}">
-            {% endif %}
-            <div class="book-info">
-                <a href="{% url 'book_detail' book.id %}">{{ book.title }}</a>
-                <p>Published: {{ book.published_year|default:"N/A" }}</p>
-            </div>
+<h2>Your Library</h2>
+<div class="author-books">
+    {% for book in db_books %}
+    <div class="book-item">
+        {% if book.thumbnail %}
+            <img src="{{ book.thumbnail }}">
+        {% endif %}
+        <div class="book-info">
+            <a href="{{ book.get_detail_url }}">{{ book.title }}</a>
+            <p>(Saved in your library)</p>
         </div>
-        {% empty %}
-        <p>No books found for this author.</p>
-        {% endfor %}
     </div>
+    {% empty %}
+        <p>No books imported yet.</p>
+    {% endfor %}
+</div>
 
-    <!-- Back button -->
-    <p>
-        <a href="{% url 'author_search' %}" class="btn-back">Back to search</a>
-    </p>
+<h2>Import from Google Books</h2>
+<div class="author-books">
+    {% for book in google_books %}
+    <div class="book-item">
+        {% if book.thumbnail %}
+        <img src="{{ book.thumbnail }}">
+        {% endif %}
+        <div class="book-info">
+            {{ book.title }}
+            <br>
+            <a href="{% url 'import_book' 'google' book.external_id %}" class="btn-import">
+                Import to library
+            </a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
 
 </div>
+
+<a href="{% url 'author_search' %}" class="btn-back">Back to search</a>
 
 {% endblock %}

@@ -1,46 +1,42 @@
-from django.shortcuts import render
-from books.services.google_books import get_google_book, search_google_books
+from django.shortcuts import get_object_or_404, render, Http404
+from books.models.books import Book
+from books.services.google_books import get_google_book
+import requests
 
-def google_book_detail(request, volume_id):
+
+def book_detail_view(request, book_id):
     """
-    View for displaying the detail of a single Google Books book.
-
-    Args:
-        request (HttpRequest): The Django request object.
-        volume_id (str): The unique Google Books volume ID for the book.
-
-    Returns:
-        HttpResponse: Renders the book_detail.html template with book details
-                      and other books by the same author.
+    book_id může být:
+    - interní ID (int)
+    - google_id
+    - openlibrary_key
     """
-    # Fetch book details from Google Books API
-    volume = get_google_book(volume_id)
-    volume_info = volume.get("volumeInfo", {})
+    book = None
 
-    title = volume_info.get("title", "Untitled")
-    authors = volume_info.get("authors", [])
-    description = volume_info.get("description", "No description available.")
+    # 1) interní DB
+    if book_id.isdigit():
+        book = get_object_or_404(Book, id=int(book_id))
+        return render(request, "book_detail.html", {"book": book})
 
-    # Find other books by the same author
-    author_books = []
-    if authors:
-        author_query = authors[0]  # use the first author
-        items = search_google_books(author_query)
-        for item in items:
-            b_info = item.get("volumeInfo", {})
-            b_id = item.get("id")
-            b_authors = b_info.get("authors", [])
-            b_title = b_info.get("title", "Untitled")
-            # Only include books that have the exact same author
-            if b_id and b_id != volume_id and authors[0] in b_authors:
-                author_books.append({"id": b_id, "title": b_title})
+    # 2) externí Google Books
+    try:
+        book_data = get_google_book(book_id)
+        volume_info = book_data.get("volumeInfo", {})
+        if not volume_info:
+            raise Http404("Book not found on Google Books")
+        book = {
+            "title": volume_info.get("title", "Untitled"),
+            "authors": volume_info.get("authors", []),
+            "description": volume_info.get("description", "No description available."),
+            "thumbnail": volume_info.get("imageLinks", {}).get("thumbnail"),
+            "source": "google",
+            "external_id": book_id,
+        }
+        return render(request, "book_detail.html", {"book": book})
 
-    context = {
-        "volume": volume_info,
-        "authors": authors,
-        "description": description,
-        "author_books": author_books,
-        "current_volume_id": volume_id,
-    }
-
-    return render(request, "book_detail.html", context)
+    except requests.HTTPError as e:
+        # Pokud API neodpoví nebo volume_id neexistuje
+        raise Http404(f"Book not found on Google Books ({e.response.status_code})")
+    except Exception as e:
+        # jiné chyby
+        raise Http404(f"Book not found: {str(e)}")
