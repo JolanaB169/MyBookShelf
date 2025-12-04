@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Search Books</h1>
+
+<form method="GET">
+    {{ form.as_p }}
+    <button type="submit">Search</button>
+</form>
+
+<hr>
+
+{% if results %}
+    <h2>Results:</h2>
+    <ul>
+        {% for book in results %}
+            <li>
+                <strong>{{ book.title }}</strong><br>
+                Authors: {{ book.authors|join:", " }}<br>
+                Published: {{ book.published_year }}<br>
+                {% if book.thumbnail %}
+                    <img src="{{ book.thumbnail }}" alt="cover">
+                {% endif %}
+                <p>{{ book.description|slice:":250" }}...</p>
+            </li>
+            <hr>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+{% endblock %}
