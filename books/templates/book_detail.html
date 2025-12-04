@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>{{ volume.title|default:"Untitled" }}</h1>
+
+{% if authors %}
+<p>Author: {{ authors|join:", " }}</p>
+
+<h3>Other books by the author:</h3>
+<ul>
+    {% for item in author_books %}
+        <li>
+            <a href="{% url 'book_detail' item.id %}">{{ item.title }}</a>
+        </li>
+    {% empty %}
+        <li>No more books.</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{# Display book thumbnail if available #}
+{% if volume.imageLinks.thumbnail %}
+    <img src="{{ volume.imageLinks.thumbnail }}" alt="Book cover of {{ volume.title }}">
+{% endif %}
+
+<p>{{ description|default:"No description available."|safe }}</p>
+
+<p><a href="{% url 'book_search' %}?query={{ volume.title }}">Back to search</a></p>
+
+{% endblock %}

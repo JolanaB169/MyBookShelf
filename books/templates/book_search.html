@@ -14,7 +14,9 @@
     <ul>
         {% for book in results %}
             <li>
-                <strong>{{ book.title }}</strong><br>
+                <a href="{% url 'book_detail' book.id %}">
+                    <strong>{{ book.title }}</strong>
+                </a><br>
                 Authors: {{ book.authors|join:", " }}<br>
                 Published: {{ book.published_year }}<br>
                 {% if book.thumbnail %}
