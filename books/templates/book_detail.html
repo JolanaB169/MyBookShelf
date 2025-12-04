@@ -1,81 +1,32 @@
 {% extends 'base.html' %}
-{% load static %}
-
 {% block content %}
-<div class="book-detail-page">
+   <h1>{{ book.title|default:"Untitled" }}</h1>
 
+   <p><strong>Year:</strong> {{ book.year|default:"N/A" }}</p>
 
-    <div class="book-main" style="display:flex; gap:20px; margin-top:20px;">
+   <p><strong>Genre:</strong>
+     {% if book.genre.exists %}
+       {% for genre in book.genre.all %}
+         {{ genre.name }}{% if not forloop.last %}, {% endif %}
+       {% endfor %}
+     {% else %}
+       N/A
+     {% endif %}
+   </p>
 
-        <!-- Main content -->
-        <div class="book-info" style="flex:2;">
+   <p><strong>Rating:</strong> {{ book.get_rating_display|default:"No rating" }}</p>
 
-            {% if book %}
-                <h1>{{ book.title|default:"Untitled" }}</h1>
+   <p><strong>Description:</strong> {{ book.description|default:"No description available." }}</p>
 
-                {% if book.authors.exists %}
-                <p class="book-authors">
-                    Author:
-                    {% for author in book.authors.all %}
-                        <a href="{% url 'author_detail' author_name=author.first_name|add:" "|add:author.last_name %}" class="author-link">{{ author }}</a>
-                    {% endfor %}
-                </p>
-                {% endif %}
-
-                {% if book.thumbnail %}
-                <img src="{{ book.thumbnail }}" alt="Book cover of {{ book.title }}" class="book-cover" style="max-width:200px; margin-bottom:10px;">
-                {% endif %}
-
-                <p><strong>ISBN:</strong> {{ book.isbn|default:"N/A" }}</p>
-                <p><strong>Publisher:</strong> {{ book.publisher|default:"N/A" }}</p>
-                <p><strong>Year:</strong> {{ book.year|default:"N/A" }}</p>
-
-                <p>{{ book.description|default:"No description available."|safe }}</p>
-
-            {% elif volume %}
-                <h1>{{ volume.title|default:"Untitled" }}</h1>
-
-                {% if volume.authors %}
-                <p class="book-authors">
-                    Author:
-                    {% for author in volume.authors %}
-                        <a href="{% url 'author_detail' author_name=author %}" class="author-link">{{ author }}</a>{% if not forloop.last %}, {% endif %}
-                    {% endfor %}
-                </p>
-                {% endif %}
-
-                {% if volume.thumbnail %}
-                <img src="{{ volume.thumbnail }}" alt="Book cover of {{ volume.title }}" class="book-cover" style="max-width:200px; margin-bottom:10px;">
-                {% endif %}
-
-                <p>{{ volume.description|default:"No description available."|safe }}</p>
-
-            {% else %}
-                <p>Book not found.</p>
-            {% endif %}
-
-        </div>
-
-        <!-- Sidebar with other books by the same author -->
-        {% if book and book.authors.exists %}
-        <aside class="book-sidebar" style="flex:1; border-left:1px solid #ccc; padding-left:20px;">
-            <h3>Other books by the author:</h3>
-            <ul>
-                {% for author in book.authors.all %}
-                    {% for other_book in author.books.all %}
-                        {% if other_book.id != book.id %}
-                        <li><a href="{% url 'book_detail' book_id=other_book.id %}">{{ other_book.title }}</a></li>
-                        {% endif %}
-                    {% endfor %}
-                {% endfor %}
-            </ul>
-        </aside>
-        {% endif %}
-
-    </div>
-
-<!-- Back to search button -->
-        <a href="{% url 'book_search' %}" class="btn-back">Back to search</a>
-
-</div>
+   <p><strong>Authors:</strong>
+     {% if book.authors.exists %}
+       {% for author in book.authors.all %}
+         <a href="{% url 'author_detail' author_name=author.first_name|add:" "|add:author.last_name %}">
+            {{ author.first_name }} {{ author.last_name }}
+         </a>{% if not forloop.last %}, {% endif %}
+       {% endfor %}
+     {% else %}
+       N/A
+     {% endif %}
+   </p>
 {% endblock %}

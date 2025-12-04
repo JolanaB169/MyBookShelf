@@ -15,22 +15,30 @@
     <ul>
         {% for book in results %}
             <li>
-                <a href="{% url 'book_detail' book.id %}">
+                <a href="{% url 'book_detail' book_id=book.id %}">
                     <strong>{{ book.title }}</strong>
                 </a><br>
-                Authors: 
-                {% for author in book.authors %}
-                    <a href="{% url 'author_detail' author %}">{{ author }}</a>{% if not forloop.last %}, {% endif %}
+
+                Authors:
+                {% for author in book.authors.all %}
+                    <a href="{% url 'author_detail' author_name=author.first_name|add:" "|add:author.last_name %}">
+                        {{ author.first_name }} {{ author.last_name }}
+                    </a>{% if not forloop.last %}, {% endif %}
                 {% endfor %}<br>
-                Published: {{ book.published_year }}<br>
+
+                Published: {{ book.year|default:"N/A" }}<br>
+
                 {% if book.thumbnail %}
-                    <img src="{{ book.thumbnail }}" alt="cover">
+                    <img src="{{ book.thumbnail }}" alt="cover" style="max-width:100px;">
                 {% endif %}
-                <p>{{ book.description|slice:":250" }}...</p>
+
+                <p>{{ book.description|default:"No description available."|slice:":250" }}{% if book.description and book.description|length > 250 %}...{% endif %}</p>
             </li>
             <hr>
         {% endfor %}
     </ul>
+{% else %}
+    <p>No results found in your library.</p>
 {% endif %}
 
 {% endblock %}

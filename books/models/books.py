@@ -31,8 +31,6 @@ class Book(models.Model):
     authors = models.ManyToManyField(Author, related_name='books')
     thumbnail = models.TextField(blank=True, null=True)
 
-    # External identifiers
-    google_id = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.title
