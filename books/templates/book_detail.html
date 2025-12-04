@@ -1,33 +1,53 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>{{ volume.title|default:"Untitled" }}</h1>
+<div class="book-detail-page">
 
-{% if authors %}
-<p>Author:
-    {% for author in authors %}
-        <a href="{% url 'author_detail' author %}">{{ author }}</a>{% if not forloop.last %}, {% endif %}
-    {% endfor %}
-</p>
+    <!-- Main content -->
+    <div class="book-main">
 
-<h3>Other books by the author:</h3>
-<ul>
-    {% for item in author_books %}
-        <li>
-            <a href="{% url 'book_detail' item.id %}">{{ item.title }}</a>
-        </li>
-    {% empty %}
-        <li>No more books.</li>
-    {% endfor %}
-</ul>
-{% endif %}
+        <!-- Back to search button -->
+        <a href="{% url 'book_search' %}" class="btn-back">Back to search</a>
 
-{% if volume.imageLinks.thumbnail %}
-    <img src="{{ volume.imageLinks.thumbnail }}" alt="Book cover of {{ volume.title }}">
-{% endif %}
+        <!-- Book title -->
+        <h1>{{ volume.title|default:"Untitled" }}</h1>
 
-<p>{{ description|default:"No description available."|safe }}</p>
+        <!-- Authors -->
+        {% if authors %}
+        <p class="book-authors">
+            Author:
+            {% for author in authors %}
+                <a href="{% url 'author_detail' author %}" class="author-link">{{ author }}</a>{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        </p>
+        {% endif %}
 
-<p><a href="{% url 'book_search' %}?query={{ volume.title }}">Back to search</a></p>
+        <!-- Book cover -->
+        {% if volume.imageLinks.thumbnail %}
+        <img src="{{ volume.imageLinks.thumbnail }}" alt="Book cover of {{ volume.title }}" class="book-cover">
+        {% endif %}
+
+        <!-- Description -->
+        <p>{{ description|default:"No description available."|safe }}</p>
+
+    </div>
+
+    <!-- Sidebar with other books -->
+    {% if author_books %}
+    <aside class="book-sidebar">
+        <h3>Other books by the author:</h3>
+        <ul>
+            {% for item in author_books %}
+                <li>
+                    <a href="{% url 'book_detail' item.id %}">{{ item.title }}</a>
+                </li>
+            {% empty %}
+                <li>No more books.</li>
+            {% endfor %}
+        </ul>
+    </aside>
+    {% endif %}
+
+</div>
 
 {% endblock %}

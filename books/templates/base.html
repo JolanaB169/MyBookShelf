@@ -2,15 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Book</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyBookShelf</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-{% include 'header.html' %}
+    {% include 'header.html' %}
 
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
 
-{% block content %}
-    <h1>bla bla</h1>
-{% endblock %}
-
+    {% include 'footer.html' %}
 </body>
 </html>

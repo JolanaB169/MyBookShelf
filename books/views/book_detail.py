@@ -24,13 +24,15 @@ def google_book_detail(request, volume_id):
     # Find other books by the same author
     author_books = []
     if authors:
-        author_query = authors[0]  # use the first author for searching
+        author_query = authors[0]  # use the first author
         items = search_google_books(author_query)
         for item in items:
             b_info = item.get("volumeInfo", {})
             b_id = item.get("id")
+            b_authors = b_info.get("authors", [])
             b_title = b_info.get("title", "Untitled")
-            if b_id and b_id != volume_id:  # avoid including the current book
+            # Only include books that have the exact same author
+            if b_id and b_id != volume_id and authors[0] in b_authors:
                 author_books.append({"id": b_id, "title": b_title})
 
     context = {
