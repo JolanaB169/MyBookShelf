@@ -26,7 +26,7 @@
      </div>
     {% endif %}
 
-    {% if not author.photo %}
+{% if not author.photo and user.is_authenticated %}
     <h3>Nahrát fotku autora:</h3>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
@@ -34,5 +34,6 @@
         <button type="submit">Nahrát</button>
     </form>
 {% endif %}
+
 
 {% endblock %}

@@ -42,12 +42,13 @@
    {% endif %}
 
 
-   <h3>Nahrát obálku knihy:</h3>
-   <form method="post" enctype="multipart/form-data">
-       {% csrf_token %}
-       <input type="file" name="image">
-       <button type="submit">Nahrát</button>
-   </form>
-
+{% if user.is_authenticated %}
+    <h3>Nahrát obálku knihy:</h3>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="image">
+        <button type="submit">Nahrát</button>
+    </form>
+{% endif %}
 
 {% endblock %}

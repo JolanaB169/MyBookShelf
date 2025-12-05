@@ -1,9 +1,17 @@
-<header>
-    <h3>Menu</h3>
-    <nav>
+<header class="site-header">
+    <nav class="main-menu">
         <a href="{% url 'home_page' %}">Domů</a>
         <a href="{% url 'book_search' %}">Hledání knihy</a>
         <a href="{% url 'author_search' %}">Hledání autora</a>
-
     </nav>
+
+    <div class="auth-links">
+        {% if user.is_authenticated %}
+            <span class="welcome">Vítej, {{ user.username }}!</span>
+            <a href="{% url 'logout' %}" class="logout-link">Odhlásit se</a>
+        {% else %}
+            <a href="{% url 'register' %}">Registrovat</a> /
+            <a href="{% url 'login' %}">Přihlásit</a>
+        {% endif %}
+    </div>
 </header>
