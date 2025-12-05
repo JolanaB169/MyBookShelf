@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Knihy pro žánr "{{ genre.name }}"</h1>
+
+{% if user.is_authenticated %}
+    <form method="post">
+        {% csrf_token %}
+        {% if genre in user.profile.favorite_genres.all %}
+            <button type="submit" name="action" value="remove">
+                Odebrat z oblíbených
+            </button>
+        {% else %}
+            <button type="submit" name="action" value="add">
+                Přidat do oblíbených
+            </button>
+        {% endif %}
+    </form>
+{% endif %}
+<ul>
+    {% for book in books %}
+        <li>
+            <a href="{{ book.get_detail_url }}?return_genre={{ genre.id }}">{{ book.title }}</a>
+            - {% for author in book.authors.all %}
+                {{ author.first_name }} {{ author.last_name }}{% if not forloop.last %}, {% endif %}
+              {% endfor %}
+        </li>
+    {% empty %}
+        <li>Žádné knihy pro tento žánr.</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

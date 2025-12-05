@@ -18,16 +18,18 @@
         <div class="profile-info">
             <p><strong>Čtecí cíl:</strong> {{ profile.reading_goal|default:"nenastaveno" }}</p>
 
-            <h3>Oblíbené žánry:</h3>
-            {% if profile.favorite_genres.exists %}
-                <ul>
-                    {% for genre in profile.favorite_genres.all %}
-                        <li>{{ genre.name }}</li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p>Žádné</p>
-            {% endif %}
+<h3>Oblíbené žánry:</h3>
+{% if profile.favorite_genres.exists %}
+    <ul>
+        {% for genre in profile.favorite_genres.all %}
+            <li>
+                <a href="{% url 'genre_books' genre.id %}">{{ genre.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Žádné</p>
+{% endif %}
 
             <h3>Sledovaní autoři:</h3>
             {% if profile.preferred_authors.exists %}

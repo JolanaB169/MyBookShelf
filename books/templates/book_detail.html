@@ -8,14 +8,14 @@
    <p><strong>Stran:</strong> {{ book.pages|default:"N/A" }}</p>
 
    <p><strong>Žánr:</strong>
-     {% if book.genre.exists %}
-       {% for genre in book.genre.all %}
-         {{ genre.name }}{% if not forloop.last %}, {% endif %}
-       {% endfor %}
-     {% else %}
-       N/A
-     {% endif %}
-   </p>
+  {% if book.genre.exists %}
+    {% for genre in book.genre.all %}
+      <a href="{% url 'genre_books' genre_id=genre.id %}">{{ genre.name }}</a>{% if not forloop.last %}, {% endif %}
+    {% endfor %}
+  {% else %}
+    N/A
+  {% endif %}
+</p>
 
    <p><strong>Hodnocení:</strong> {{ book.get_rating_display|default:"Žádné hodnocení" }}</p>
 
