@@ -47,5 +47,8 @@
         {% endif %}
     </button>
 </form>
+<a href="{% url 'edit_author' author.id %}">
+    <button type="button">Editovat autora</button>
+</a>
 {% endif %}
 {% endblock %}

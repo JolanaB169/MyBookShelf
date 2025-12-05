@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Editace autora: {{ author.first_name }} {{ author.last_name }}</h1>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Uložit změny</button>
+</form>
+
+<a href="{% url 'author_detail' author_name=author.first_name|add:' '|add:author.last_name %}">Zpět na detail autora</a>
+{% endblock %}

@@ -12,6 +12,7 @@ from .views.favourite_author import favorite_author
 from .views.genre_search import genre_search_view
 from .views.genre_books import genre_books_view
 from .views.edit_book import edit_book_view
+from .views.edit_author import edit_author_view
 
 
 
@@ -26,10 +27,11 @@ urlpatterns = [
     path('logout/', logout_view, name='logout'),
     path('register/', register_view, name='register'),
     path('profile/', profile_view, name='profile'),
-    path('author/<int:author_id>/favorite/', favorite_author, name='favorite_author'),
+    path('favourite_author/<int:author_id>/favorite/', favorite_author, name='favorite_author'),
     path("genre-search/", genre_search_view, name="genre_search"),
     path("genre/<int:genre_id>/books/", genre_books_view, name="genre_books"),
-    path('book/<int:book_id>/edit/', edit_book_view, name='edit_book'),
+    path('edit_book/<int:book_id>/edit/', edit_book_view, name='edit_book'),
+    path('edit_author/<int:author_id>/edit/', edit_author_view, name='edit_author'),
 
 
 ]

@@ -1,5 +1,5 @@
 from django import forms
-from .models import UserProfile
+from .models import UserProfile, Author
 from .models.books import Book
 
 
@@ -29,3 +29,12 @@ class BookForm(forms.ModelForm):
             "genre": forms.CheckboxSelectMultiple(),
             "authors": forms.CheckboxSelectMultiple(),
         }
+
+class AuthorForm(forms.ModelForm):
+    """
+    Form for editing or creating an Author instance.
+    Includes fields for country, birth year, death year, and biography.
+    """
+    class Meta:
+        model = Author
+        fields = ["country", "year_of_birth", "year_of_death", "biography"]
