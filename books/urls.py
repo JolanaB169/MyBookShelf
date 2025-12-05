@@ -7,6 +7,9 @@ from .views.search_author import search_author_view
 from .views.logout import logout_view
 from .views.login import login_view
 from .views.register import register_view
+from .views.profile import profile_view
+from .views.favourite_author import favorite_author
+from .views.genre_search import genre_search_view
 
 
 
@@ -20,6 +23,9 @@ urlpatterns = [
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
     path('register/', register_view, name='register'),
+    path('profile/', profile_view, name='profile'),
+    path('author/<int:author_id>/favorite/', favorite_author, name='favorite_author'),
+    path("genre-search/", genre_search_view, name="genre_search"),
 
 
 ]

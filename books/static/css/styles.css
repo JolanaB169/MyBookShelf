@@ -35,24 +35,30 @@ body {
 .main-menu a:hover {
     text-decoration: underline;
 }
-
 .auth-links {
     display: flex;
     align-items: center;
-    gap: 10px; /* mezera mezi jménem a odkazem */
+    gap: 10px; /* mezera mezi prvky */
+    font-weight: 500;
+    color: #ffd700; /* zlatá stejná jako menu */
 }
 
+/* Vítej, uživateli */
 .auth-links .welcome {
     font-weight: bold;
-    color: #2a9d8f; /* tučné zelené */
 }
 
-.auth-links .logout-link {
-    color: #e76f51; /* červené */
+/* Odkazy (profil, odhlásit se) */
+.auth-links a {
     text-decoration: none;
+    color: #ffd700; /* stejná barva */
 }
 
-.auth-links .logout-link:hover {
+.auth-links a.logout-link {
+    color: #ffd700; /* zachováme stejnou barvu, ale můžeme odlišit stylem nebo font-weight */
+}
+
+.auth-links a:hover {
     text-decoration: underline;
 }
 
@@ -305,4 +311,66 @@ footer a:hover {
 .no-link {
     color: #555;
     font-style: italic;
+}
+
+.profile-container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.profile-main {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.profile-photo img {
+    max-width: 150px;
+    border-radius: 50%;
+}
+
+.no-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #555;
+    font-style: italic;
+}
+
+.profile-info {
+    flex: 1;
+}
+
+.profile-info h3 {
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+#edit-profile-btn {
+    margin-top: 10px;
+    padding: 8px 15px;
+    border: none;
+    background-color: #00509e;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#edit-profile-btn:hover {
+    background-color: #003f7f;
+}
+
+#edit-profile-form form {
+    background-color: #f4f4f4;
+    padding: 15px;
+    border-radius: 5px;
 }

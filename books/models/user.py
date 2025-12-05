@@ -8,7 +8,7 @@ class UserProfile(models.Model):
     Additional optional profile information for each user, focused on reading preferences.
     """
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
-    # Book and content preferences
+    photo = models.ImageField(upload_to="profile_photos/", blank=True, null=True)
     favorite_genres = models.ManyToManyField(Genre, blank=True, related_name="fans")
     preferred_authors = models.ManyToManyField(Author, blank=True, related_name="followers")
     reading_goal = models.PositiveIntegerField(

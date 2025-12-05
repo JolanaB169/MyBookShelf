@@ -35,5 +35,17 @@
     </form>
 {% endif %}
 
-
+{% if user.is_authenticated %}
+<h3>Možnosti pro přihlášené:</h3>
+<form method="post" action="{% url 'favorite_author' author.id %}">
+    {% csrf_token %}
+    <button type="submit">
+        {% if author in request.user.profile.preferred_authors.all %}
+            Odebrat z oblíbených
+        {% else %}
+            Přidat do oblíbených
+        {% endif %}
+    </button>
+</form>
+{% endif %}
 {% endblock %}
