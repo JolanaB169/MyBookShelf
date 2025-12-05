@@ -49,6 +49,10 @@
         <input type="file" name="image">
         <button type="submit">Nahrát</button>
     </form>
+
+        <a href="{% url 'edit_book' book.id %}">
+           <button type="button">Editovat knihu</button>
+        </a>
 {% endif %}
 
 {% endblock %}

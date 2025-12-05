@@ -11,6 +11,7 @@ from .views.profile import profile_view
 from .views.favourite_author import favorite_author
 from .views.genre_search import genre_search_view
 from .views.genre_books import genre_books_view
+from .views.edit_book import edit_book_view
 
 
 
@@ -28,6 +29,7 @@ urlpatterns = [
     path('author/<int:author_id>/favorite/', favorite_author, name='favorite_author'),
     path("genre-search/", genre_search_view, name="genre_search"),
     path("genre/<int:genre_id>/books/", genre_books_view, name="genre_books"),
+    path('book/<int:book_id>/edit/', edit_book_view, name='edit_book'),
 
 
 ]
