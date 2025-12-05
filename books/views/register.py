@@ -4,6 +4,10 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate
 
 def register_view(request):
+    """
+    Handles user registration: creates a new user, validates passwords,
+    automatically logs in the user, and redirects to the homepage.
+    """
     if request.method == "POST":
         username = request.POST.get("username")
         email = request.POST.get("email")
