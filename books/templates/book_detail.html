@@ -2,9 +2,12 @@
 {% block content %}
    <h1>{{ book.title|default:"Untitled" }}</h1>
 
-   <p><strong>Year:</strong> {{ book.year|default:"N/A" }}</p>
+   <p><strong>Rok:</strong> {{ book.year|default:"N/A" }}</p>
+   <p><strong>ISBN:</strong> {{ book.isbn|default:"N/A" }}</p>
+   <p><strong>Nakladadelství:</strong> {{ book.publisher|default:"N/A" }}</p>
+   <p><strong>Stran:</strong> {{ book.pages|default:"N/A" }}</p>
 
-   <p><strong>Genre:</strong>
+   <p><strong>Žánr:</strong>
      {% if book.genre.exists %}
        {% for genre in book.genre.all %}
          {{ genre.name }}{% if not forloop.last %}, {% endif %}
@@ -14,11 +17,11 @@
      {% endif %}
    </p>
 
-   <p><strong>Rating:</strong> {{ book.get_rating_display|default:"No rating" }}</p>
+   <p><strong>Hodnocení:</strong> {{ book.get_rating_display|default:"Žádné hodnocení" }}</p>
 
-   <p><strong>Description:</strong> {{ book.description|default:"No description available." }}</p>
+   <p><strong>Popis:</strong> {{ book.description|default:"No description available." }}</p>
 
-   <p><strong>Authors:</strong>
+   <p><strong>Autor:</strong>
      {% if book.authors.exists %}
        {% for author in book.authors.all %}
          <a href="{% url 'author_detail' author_name=author.first_name|add:" "|add:author.last_name %}">
@@ -29,4 +32,22 @@
        N/A
      {% endif %}
    </p>
+
+
+   {% if book.image %}
+     <div>
+       <h3>Obálka knihy:</h3>
+       <img src="{{ book.image.url }}" alt="{{ book.title }}" style="max-width:200px; height:auto;">
+     </div>
+   {% endif %}
+
+
+   <h3>Nahrát obálku knihy:</h3>
+   <form method="post" enctype="multipart/form-data">
+       {% csrf_token %}
+       <input type="file" name="image">
+       <button type="submit">Nahrát</button>
+   </form>
+
+
 {% endblock %}

@@ -29,8 +29,13 @@ class Book(models.Model):
     rating = models.IntegerField(choices=STAR_CHOICES, default=0)
     description = models.TextField()
     authors = models.ManyToManyField(Author, related_name='books')
-    thumbnail = models.TextField(blank=True, null=True)
 
+    image = models.ImageField(
+        upload_to="books/",
+        blank=True,
+        null=True,
+        verbose_name="Obálka knihy"
+    )
 
     def __str__(self):
         return self.title

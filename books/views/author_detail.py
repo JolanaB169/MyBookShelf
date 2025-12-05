@@ -1,20 +1,25 @@
-from django.shortcuts import render, get_object_or_404
-from ..models import Book, Author
+from django.shortcuts import render, get_object_or_404, redirect
+from ..models import Author
 
 def author_detail_view(request, author_name):
     """
-    Zobrazuje autora a jeho knihy z vlastní DB.
-    author_name = "Jméno Příjmení"
+    Display an author and their books from the database.
+    Allows uploading a photo for the author.
     """
-    # Rozdělení jména
+
     parts = author_name.split(" ", 1)
     first_name = parts[0]
     last_name = parts[1] if len(parts) > 1 else ""
 
-    # Najdi autora v DB, nebo 404
     author = get_object_or_404(Author, first_name__iexact=first_name, last_name__iexact=last_name)
 
-    # Načti jeho knihy (už jde přes related_name 'books')
+    if request.method == "POST":
+        photo = request.FILES.get("photo")
+        if photo:
+            author.photo = photo
+            author.save()
+        return redirect("author_detail", author_name=author_name)
+
     db_books = author.books.all()
 
     context = {

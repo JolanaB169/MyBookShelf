@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Search Books</h1>
+<h1>Hledání knihy</h1>
 
 <form method="get">
-    <input type="text" name="q" value="{{ query }}" placeholder="Search for books or authors">
-    <button type="submit">Search</button>
+    <input type="text" name="q" value="{{ query }}" placeholder="Napiš název knihy.">
+    <button type="submit">Hledat</button>
 </form>
 
 {% if books %}
@@ -19,7 +19,7 @@
         {% endfor %}
     </ul>
 {% else %}
-    <p>No books found.</p>
+    <p>Žádné knihy nenalezeny.</p>
 {% endif %}
 {% endblock %}
 

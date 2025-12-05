@@ -2,11 +2,15 @@
 {% block content %}
     <h1>{{ author.first_name }} {{ author.last_name }}</h1>
 
-    <p><strong>Year of birth:</strong> {{ author.year_of_birth|default:"N/A" }}</p>
-    <p><strong>Year of death:</strong> {{ author.year_of_death|default:"N/A" }}</p>
-    <p><strong>Biography:</strong> {{ author.biography|default:"No biography available." }}</p>
+    <p><strong>Rok narození:</strong> {{ author.year_of_birth|default:"N/A" }}</p>
+ {% if author.year_of_death %}
+    <p><strong>Rok úmrtí:</strong> {{ author.year_of_death }}</p>
+{% endif %}
+    <p><strong>Země:</strong> {{ author.country|default:"N/A" }}</p>
 
-    <h2>Books:</h2>
+    <p><strong>Životopis:</strong> {{ author.biography|default:"Životopis není k dispozici." }}</p>
+
+    <h2>Knihy:</h2>
     <ul>
         {% for book in author.books.all %}
             <li><a href="{{ book.get_detail_url }}">{{ book.title }}</a></li>
@@ -14,4 +18,21 @@
             <li>No books</li>
         {% endfor %}
     </ul>
+
+   {% if author.photo %}
+     <div>
+       <h3>Fotka autora:</h3>
+       <img src="{{ author.photo.url }}" alt="{{ author.first_name }} {{ author.last_name }}" style="max-width:200px; height:auto;">
+     </div>
+    {% endif %}
+
+    {% if not author.photo %}
+    <h3>Nahrát fotku autora:</h3>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="photo">
+        <button type="submit">Nahrát</button>
+    </form>
+{% endif %}
+
 {% endblock %}

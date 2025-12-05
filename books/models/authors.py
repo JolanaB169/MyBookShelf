@@ -15,7 +15,7 @@ class Author(models.Model):
                                                     MaxValueValidator(datetime.datetime.now().year)],
                                         blank=True, null=True)
     biography = models.TextField(blank=True)
-
+    photo = models.ImageField(upload_to='authors/', blank=True, null=True)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
