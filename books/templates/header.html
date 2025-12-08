@@ -1,9 +1,13 @@
 <header class="site-header">
     <nav class="main-menu">
         <a href="{% url 'home_page' %}">Domů</a>
+        <a href="{% url 'book_list' %}">Seznam knih</a>
         <a href="{% url 'book_search' %}">Hledání knihy</a>
         <a href="{% url 'author_search' %}">Hledání autora</a>
         <a href="{% url 'genre_search' %}">Hledání knih podle žánru</a>
+        {% if user.is_staff %}
+            <a href="{% url 'pending_edits' %}">Čekající úpravy</a>
+        {% endif %}
     </nav>
 
     <div class="auth-links">

@@ -13,6 +13,9 @@ from .views.genre_search import genre_search_view
 from .views.genre_books import genre_books_view
 from .views.edit_book import edit_book_view
 from .views.edit_author import edit_author_view
+from .views.book_list import book_list_view
+from .views.approve_edit_book import approve_book_changes
+from .views.pending_edit_book import pending_edits_view
 
 
 
@@ -32,6 +35,10 @@ urlpatterns = [
     path("genre/<int:genre_id>/books/", genre_books_view, name="genre_books"),
     path('edit_book/<int:book_id>/edit/', edit_book_view, name='edit_book'),
     path('edit_author/<int:author_id>/edit/', edit_author_view, name='edit_author'),
+    path("books/", book_list_view, name="book_list"),
+    path('book/<int:book_id>/approve/', approve_book_changes, name='approve_edit_book'),
+    path('books/pending-edits/', pending_edits_view, name='pending_edits'),
+
 
 
 ]

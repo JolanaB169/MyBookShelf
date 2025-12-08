@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Author, Book, BookList, BookListItem
+from .models import Author, Book, BookList, BookListItem, Genre
 
 @admin.register(Author)
 class AuthorAdmin(admin.ModelAdmin):
@@ -24,3 +24,7 @@ class BookListItemAdmin(admin.ModelAdmin):
     list_display = ("booklist", "book", "added_at")
     search_fields = ("booklist__name", "book__title")
 
+@admin.register(Genre)
+class GenreAdmin(admin.ModelAdmin):
+    list_display = ("name",)
+    search_fields = ("name",)

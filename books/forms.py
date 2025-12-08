@@ -24,7 +24,7 @@ class BookForm(forms.ModelForm):
     """
     class Meta:
         model = Book
-        fields = ["year", "isbn", "publisher", "pages", "description", "genre", "authors"]
+        fields = ["title", "year", "isbn", "publisher", "pages", "description", "genre", "authors"]
         widgets = {
             "genre": forms.CheckboxSelectMultiple(),
             "authors": forms.CheckboxSelectMultiple(),

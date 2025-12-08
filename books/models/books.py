@@ -1,6 +1,7 @@
 from django.db import models
 from .authors import Author
 from .genre import Genre
+from .user import User
 from django.core.validators import MinValueValidator, MaxValueValidator
 import datetime
 
@@ -8,14 +9,6 @@ class Book(models.Model):
     """
     Model representing a book and its metadata.
     """
-    STAR_CHOICES = (
-        (0, '0 Stars'),
-        (1, '1 Star'),
-        (2, '2 Star'),
-        (3, '3 Star'),
-        (4, '4 Star'),
-        (5, '5 Star')
-    )
     title = models.CharField(max_length=100)
     isbn = models.CharField(max_length=13, unique=True, verbose_name="ISBN", blank=True, null=True)
     publisher = models.CharField(max_length=100, blank=True, null=True)
@@ -26,7 +19,6 @@ class Book(models.Model):
         blank=True
     )
     genre = models.ManyToManyField(Genre)
-    rating = models.IntegerField(choices=STAR_CHOICES, default=0)
     description = models.TextField()
     authors = models.ManyToManyField(Author, related_name='books')
 
@@ -36,6 +28,11 @@ class Book(models.Model):
         null=True,
         verbose_name="Obálka knihy"
     )
+    approved = models.BooleanField(default=False)
+
+    pending_edit = models.BooleanField(default=False)
+    pending_data = models.JSONField(null=True, blank=True)
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.title

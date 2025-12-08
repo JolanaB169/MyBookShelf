@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Čekající úpravy knih</h1>
+
+{% if books %}
+    <ul>
+    {% for book in books %}
+        <li>
+            <strong>{{ book.title }}</strong>
+            od
+            {% if book.created_by %}
+                {{ book.created_by.username }}
+            {% else %}
+                unknown
+            {% endif %}
+            <a href="{% url 'book_detail' book.id %}">Zobrazit detail</a>
+
+            {% if book.pending_data %}
+                <ul>
+                    <strong>Navrhované změny:</strong>
+                    {% for field, value in book.pending_data.items %}
+                        <li>
+                            {{ field|capfirst }}:
+                            {% if value is iterable and value is not string %}
+                                {{ value|join:", " }}
+                            {% else %}
+                                {{ value }}
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            <form method="post" action="{% url 'approve_edit_book' book.id %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit">Schválit změny</button>
+            </form>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Žádné čekající úpravy.</p>
+{% endif %}
+
+{% endblock %}

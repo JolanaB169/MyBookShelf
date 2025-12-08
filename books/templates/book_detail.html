@@ -17,7 +17,6 @@
   {% endif %}
 </p>
 
-   <p><strong>Hodnocení:</strong> {{ book.get_rating_display|default:"Žádné hodnocení" }}</p>
 
    <p><strong>Popis:</strong> {{ book.description|default:"No description available." }}</p>
 
@@ -53,6 +52,13 @@
         <a href="{% url 'edit_book' book.id %}">
            <button type="button">Editovat knihu</button>
         </a>
+{% endif %}
+
+{% if user.is_staff and book.pending_edit %}
+    <form method="post" action="{% url 'approve_edit_book' book.id %}">
+        {% csrf_token %}
+        <button type="submit">Schválit navržené změny</button>
+    </form>
 {% endif %}
 
 {% endblock %}
