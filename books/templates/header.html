@@ -8,6 +8,7 @@
 
         {% if user.is_authenticated %}
             <a href="{% url 'add_book_view' %}">Přidání nové knihy</a>
+            <a href="{% url 'add_author' %}">Přidání nového autora</a>
         {% endif %}
 
         {% if user.is_staff %}

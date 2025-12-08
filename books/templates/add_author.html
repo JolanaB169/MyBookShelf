@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Přidat nového autora</h1>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+
+    <p>{{ form.first_name.label_tag }} {{ form.first_name }}</p>
+    <p>{{ form.last_name.label_tag }} {{ form.last_name }}</p>
+    <p>{{ form.year_of_birth.label_tag }} {{ form.year_of_birth }}</p>
+    <p>{{ form.year_of_death.label_tag }} {{ form.year_of_death }}</p>
+    <p>{{ form.country.label_tag }} {{ form.country }}</p>
+    <p>{{ form.biography.label_tag }} {{ form.biography }}</p>
+    <p>{{ form.photo.label_tag }} {{ form.photo }}</p>
+
+    <button type="submit">Přidat autora</button>
+</form>
+
+
+
+{% endblock %}

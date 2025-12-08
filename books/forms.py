@@ -52,4 +52,4 @@ class AuthorForm(forms.ModelForm):
     """
     class Meta:
         model = Author
-        fields = ['first_name', 'last_name', 'year_of_birth', 'year_of_death', 'country']
+        fields = ['first_name', 'last_name', 'year_of_birth', 'year_of_death', 'country', 'biography']
