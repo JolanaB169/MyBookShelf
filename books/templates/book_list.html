@@ -18,18 +18,22 @@
         {% endfor %}
     </select>
 
-<select name="author">
-    <option value="">-- autor --</option>
-    {% for a in authors %}
-        <option value="{{ a.id }}"
-            {% if request.GET.author == a.id|stringformat:"s" %} selected {% endif %}>
-            {{ a.first_name }} {{ a.last_name }}
-        </option>
-    {% endfor %}
-</select>
+    <select name="author">
+        <option value="">-- autor --</option>
+        {% for a in authors %}
+            <option value="{{ a.id }}"
+                {% if request.GET.author == a.id|stringformat:"s" %} selected {% endif %}>
+                {{ a.first_name }} {{ a.last_name }}
+            </option>
+        {% endfor %}
+    </select>
 
-    <input type="number" name="year" placeholder="Rok"
-           value="{{ request.GET.year }}" />
+
+    <select name="order">
+        <option value="">-- Seřadit --</option>
+        <option value="title" {% if request.GET.order == "title" %}selected{% endif %}>Název A-Z</option>
+        <option value="-title" {% if request.GET.order == "-title" %}selected{% endif %}>Název Z-A</option>
+    </select>
 
     <button type="submit">Filtrovat</button>
     <a href="{% url 'book_list' %}">Reset</a>
@@ -46,17 +50,15 @@
                 <img src="{{ book.image.url }}" width="120">
             {% endif %}
 
-<p><strong>Autor:</strong>
-    {% for a in book.authors.all %}
-        {{ a.first_name }} {{ a.last_name }}
-        {% if not forloop.last %}, {% endif %}
-    {% endfor %}
-</p>
-            <p><strong>Žánr:</strong> 
-                {% for g in book.genre.all %} {{ g.name }} {% if not forloop.last %}, {% endif %} {% endfor %}
+            <p><strong>Autor:</strong>
+                {% for a in book.authors.all %}
+                    {{ a.first_name }} {{ a.last_name }}
+                    {% if not forloop.last %}, {% endif %}
+                {% endfor %}
             </p>
-
-            <p><strong>Rok:</strong> {{ book.year }}</p>
+            <p><strong>Žánr:</strong>
+                {% for g in book.genre.all %} {{ g.name }}{% if not forloop.last %}, {% endif %}{% endfor %}
+            </p>
         </div>
         <hr>
     {% empty %}

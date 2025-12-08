@@ -1,11 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Editace knihy: {{ book.title }}</h1>
+<h1>Přidat novou knihu</h1>
 
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.non_field_errors }}
-
     <p>{{ form.title.label_tag }} {{ form.title }}</p>
     <p>{{ form.isbn.label_tag }} {{ form.isbn }}</p>
     <p>{{ form.publisher.label_tag }} {{ form.publisher }}</p>
@@ -20,8 +19,8 @@
     {{ form.existing_authors }}
     <p>{{ form.new_authors.label_tag }} {{ form.new_authors }}</p>
 
-    <button type="submit">Uložit změny</button>
+    <button type="submit" class="btn btn-primary">Přidat knihu</button>
 </form>
 
-<a href="{% url 'book_detail' book.id %}">Zpět na detail knihy</a>
+
 {% endblock %}

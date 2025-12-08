@@ -20,8 +20,10 @@ def book_list_view(request):
     if author:
         books = books.filter(authors__id=author)
 
-    if year:
-        books = books.filter(year=year)
+    order = request.GET.get("order", "title")
+    if order not in ["title", "-title"]:
+        order = "title"
+    books = books.order_by(order)
 
     context = {
         "books": books.distinct(),

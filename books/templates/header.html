@@ -5,9 +5,15 @@
         <a href="{% url 'book_search' %}">Hledání knihy</a>
         <a href="{% url 'author_search' %}">Hledání autora</a>
         <a href="{% url 'genre_search' %}">Hledání knih podle žánru</a>
+
+        {% if user.is_authenticated %}
+            <a href="{% url 'add_book_view' %}">Přidání nové knihy</a>
+        {% endif %}
+
         {% if user.is_staff %}
             <a href="{% url 'pending_edits' %}">Čekající úpravy</a>
         {% endif %}
+
     </nav>
 
     <div class="auth-links">

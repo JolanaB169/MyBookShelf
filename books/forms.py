@@ -20,14 +20,29 @@ class UserProfileForm(forms.ModelForm):
 class BookForm(forms.ModelForm):
     """
     Form for editing or creating a Book instance.
-    Allows selection of multiple genres and authors via checkboxes.
+    Allows selection of multiple genres via checkboxes.
+    Allows selection of existing authors via checkboxes and adding new authors inline.
     """
+    # Existing authors can be selected via checkboxes
+    existing_authors = forms.ModelMultipleChoiceField(
+        queryset=Author.objects.all(),
+        required=False,
+        widget=forms.CheckboxSelectMultiple,
+        label="Vyberte existující autory"
+    )
+
+    # New authors can be added as text (one per line)
+    new_authors = forms.CharField(
+        required=False,
+        widget=forms.Textarea(attrs={'placeholder': 'Jméno a příjmení každého autora na nový řádek'}),
+        label="Noví autoři"
+    )
+
     class Meta:
         model = Book
-        fields = ["title", "year", "isbn", "publisher", "pages", "description", "genre", "authors"]
+        fields = ["title", "year", "isbn", "publisher", "pages", "description", "genre"]
         widgets = {
             "genre": forms.CheckboxSelectMultiple(),
-            "authors": forms.CheckboxSelectMultiple(),
         }
 
 class AuthorForm(forms.ModelForm):
@@ -37,4 +52,4 @@ class AuthorForm(forms.ModelForm):
     """
     class Meta:
         model = Author
-        fields = ["country", "year_of_birth", "year_of_death", "biography"]
+        fields = ['first_name', 'last_name', 'year_of_birth', 'year_of_death', 'country']

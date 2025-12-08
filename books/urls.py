@@ -16,6 +16,7 @@ from .views.edit_author import edit_author_view
 from .views.book_list import book_list_view
 from .views.approve_edit_book import approve_book_changes
 from .views.pending_edit_book import pending_edits_view
+from .views.add_book import add_book_view
 
 
 
@@ -38,6 +39,7 @@ urlpatterns = [
     path("books/", book_list_view, name="book_list"),
     path('book/<int:book_id>/approve/', approve_book_changes, name='approve_edit_book'),
     path('books/pending-edits/', pending_edits_view, name='pending_edits'),
+    path('add_book', add_book_view, name='add_book_view'),
 
 
 
