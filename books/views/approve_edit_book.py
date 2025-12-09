@@ -14,7 +14,7 @@ def approve_book_changes(request, book_id):
 
     # Check if there are pending edits
     if not book.pending_edit or not book.pending_data:
-        messages.warning(request, "No pending changes to approve.")
+        messages.warning(request, "Žádné změny čekající na schválení.")
         return redirect("book_detail", book_id=book.id)
 
     data = book.pending_data
@@ -76,5 +76,5 @@ def approve_book_changes(request, book_id):
     book.approved = True
     book.save()
 
-    messages.success(request, "Pending changes have been successfully approved.")
+    messages.success(request, "Čekající změny byly úspěšně schváleny.")
     return redirect("pending_edits")
