@@ -19,6 +19,10 @@ from .views.pending_edit_book import pending_edits_view
 from .views.add_book import add_book_view
 from .views.add_author import add_author_view
 from .views.reject_edit_book import reject_book_changes
+from .views.create_booklist import create_booklist
+from .views.booklist_detail import booklist_detail
+from .views.add_book_to_lists import add_book_to_lists
+from .views.remove_book_from_list import remove_book_from_list
 
 
 
@@ -44,6 +48,10 @@ urlpatterns = [
     path('add_book', add_book_view, name='add_book_view'),
     path('authors/add/', add_author_view, name='add_author'),
     path("book/<int:book_id>/reject/", reject_book_changes, name="reject_edit_book"),
+    path("booklist/create/", create_booklist, name="create_booklist"),
+    path('booklist/<int:list_id>/', booklist_detail, name="booklist_detail"),
+    path('book/<int:book_id>/add_to_lists/', add_book_to_lists, name='add_book_to_lists'),
+    path("booklist/<int:list_id>/remove/<int:book_id>/", remove_book_from_list, name="remove_book_from_list"),
 ]
 
 

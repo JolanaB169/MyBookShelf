@@ -1,6 +1,7 @@
 from django import forms
 from .models import UserProfile, Author
 from .models.books import Book
+from .models.booklist import BookList
 
 
 
@@ -67,3 +68,13 @@ class AuthorForm(forms.ModelForm):
     class Meta:
         model = Author
         fields = ['first_name', 'last_name', 'year_of_birth', 'year_of_death', 'country', 'biography']
+
+
+class BookListForm(forms.ModelForm):
+    """Formulář pro vytvoření nebo úpravu uživatelského seznamu knih."""
+    class Meta:
+        model = BookList
+        fields = ["name"]
+        widgets = {
+            "name": forms.TextInput(attrs={"class": "form-control", "placeholder": "Název seznamu"}),
+        }

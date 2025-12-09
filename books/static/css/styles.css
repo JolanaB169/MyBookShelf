@@ -114,3 +114,25 @@ main {
     border-radius: 5px;
     margin-bottom: 10px;
 }
+
+/* ===========================
+   Footer
+=========================== */
+.site-footer {
+    background-color: #00509e;
+    color: #ffd700;
+    text-align: center;
+    padding: 15px 0;
+    margin-top: 40px;
+    font-size: 14px;
+}
+
+.site-footer a {
+    color: #ffd700;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.site-footer a:hover {
+    text-decoration: underline;
+}

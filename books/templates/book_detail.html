@@ -4,19 +4,18 @@
 
    <p><strong>Rok:</strong> {{ book.year|default:"N/A" }}</p>
    <p><strong>ISBN:</strong> {{ book.isbn|default:"N/A" }}</p>
-   <p><strong>Nakladadelství:</strong> {{ book.publisher|default:"N/A" }}</p>
+   <p><strong>Nakladatelství:</strong> {{ book.publisher|default:"N/A" }}</p>
    <p><strong>Stran:</strong> {{ book.pages|default:"N/A" }}</p>
 
    <p><strong>Žánr:</strong>
-  {% if book.genre.exists %}
-    {% for genre in book.genre.all %}
-      <a href="{% url 'genre_books' genre_id=genre.id %}">{{ genre.name }}</a>{% if not forloop.last %}, {% endif %}
-    {% endfor %}
-  {% else %}
-    N/A
-  {% endif %}
-</p>
-
+      {% if book.genre.exists %}
+        {% for genre in book.genre.all %}
+          <a href="{% url 'genre_books' genre_id=genre.id %}">{{ genre.name }}</a>{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+      {% else %}
+        N/A
+      {% endif %}
+   </p>
 
    <p><strong>Popis:</strong> {{ book.description|default:"No description available." }}</p>
 
@@ -32,14 +31,12 @@
      {% endif %}
    </p>
 
-
    {% if book.image %}
      <div>
        <h3>Obálka knihy:</h3>
        <img src="{{ book.image.url }}" alt="{{ book.title }}" style="max-width:200px; height:auto;">
      </div>
    {% endif %}
-
 
 {% if user.is_authenticated %}
     <h3>Nahrát obálku knihy:</h3>
@@ -49,9 +46,69 @@
         <button type="submit">Nahrát</button>
     </form>
 
-        <a href="{% url 'edit_book' book.id %}">
-           <button type="button">Editovat knihu</button>
-        </a>
+    <a href="{% url 'edit_book' book.id %}">
+       <button type="button">Editovat knihu</button>
+    </a>
+{% endif %}
+ {% if user.booklists.exists %}
+    <button id="toggle-lists-btn">Seznamy</button>
+
+    <div id="booklists-form" style="display:none; margin-top:10px;">
+
+        <!-- SEZNAMY, KDE JE KNIHA JIŽ PŘIDANÁ -->
+        <h4>Tato kniha je již v:</h4>
+        {% with lists_with_book=user_booklists|dictsort:"list.name" %}
+            {% if lists_with_book %}
+                <ul>
+                {% for bl in user_booklists %}
+                    {% if book.id in bl.book_ids %}
+                        <li>
+                            {{ bl.list.name }}
+                            <form method="post" action="{% url 'remove_book_from_list' bl.list.id book.id %}" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" style="color:red;">Odebrat</button>
+                            </form>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p>Kniha není v žádném z tvých seznamů.</p>
+            {% endif %}
+        {% endwith %}
+
+        <hr>
+
+        <!-- PŘIDÁNÍ DO DALŠÍCH SEZNAMŮ -->
+        <h4>Přidat do seznamu:</h4>
+        <form method="post" action="{% url 'add_book_to_lists' book.id %}">
+            {% csrf_token %}
+            <label for="lists">Vyber seznam(y):</label><br>
+
+            <select name="booklists" id="lists" multiple size="5">
+                {% for bl in user_booklists %}
+                    {% if book.id not in bl.book_ids %}
+                        <option value="{{ bl.list.id }}">
+                            {{ bl.list.name }}
+                        </option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+
+            <br>
+            <button type="submit">Přidat</button>
+        </form>
+
+        <p><a href="{% url 'create_booklist' %}">Vytvořit nový seznam</a></p>
+    </div>
+
+    <script>
+        document.getElementById('toggle-lists-btn').onclick = function() {
+            const div = document.getElementById('booklists-form');
+            div.style.display = div.style.display === 'none' ? 'block' : 'none';
+        };
+    </script>
+
 {% endif %}
 
 {% if user.is_staff and book.pending_edit %}

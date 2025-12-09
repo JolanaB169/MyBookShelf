@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Seznam: {{ booklist.name }}</h1>
+
+<h3>Knihy v seznamu:</h3>
+{% if booklist.items.exists %}
+    <ul>
+    {% for item in booklist.items.all %}
+        <li>
+            <a href="{% url 'book_detail' item.book.id %}">
+                {{ item.book.title }}
+            </a>
+            (přidáno {{ item.added_at|date:"d.m.Y H:i" }})
+
+            <!-- Tlačítko odebrat -->
+            <form method="post" action="{% url 'remove_book_from_list' booklist.id item.book.id %}"
+                  style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" style="margin-left:10px;">Odebrat</button>
+            </form>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Seznam je zatím prázdný.</p>
+{% endif %}
+
+
+<a href="{% url 'profile' %}">Zpět na profil</a>
+
+{% endblock %}

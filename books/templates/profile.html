@@ -44,6 +44,17 @@
                 <p>Žádní</p>
             {% endif %}
 
+            <h3>Moje seznamy knih:</h3>
+                <a href="{% url 'create_booklist' %}" class="btn btn-primary">Vytvořit nový seznam</a>
+                <ul>
+                {% for blist in request.user.booklists.all %}
+                <li>
+                    <a href="{% url 'booklist_detail' blist.id %}">{{ blist.name }}</a>
+                </li>
+            {% empty %}
+            <li>Žádné seznamy</li>
+            {% endfor %}
+            </ul>
 
             <button id="edit-profile-btn">Upravit profil</button>
 
