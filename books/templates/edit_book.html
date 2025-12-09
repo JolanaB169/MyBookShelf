@@ -4,24 +4,14 @@
 
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form.non_field_errors }}
+    {{ form.as_p }}
 
-    <p>{{ form.title.label_tag }} {{ form.title }}</p>
-    <p>{{ form.isbn.label_tag }} {{ form.isbn }}</p>
-    <p>{{ form.publisher.label_tag }} {{ form.publisher }}</p>
-    <p>{{ form.pages.label_tag }} {{ form.pages }}</p>
-    <p>{{ form.year.label_tag }} {{ form.year }}</p>
-    <p>{{ form.genre.label_tag }} {{ form.genre }}</p>
-    <p>{{ form.description.label_tag }} {{ form.description }}</p>
-    <p>{{ form.image.label_tag }} {{ form.image }}</p>
-
-    <h3>Autoři</h3>
-    <p>{{ form.existing_authors.label_tag }}</p>
-    {{ form.existing_authors }}
-    <p>{{ form.new_authors.label_tag }} {{ form.new_authors }}</p>
-
-    <button type="submit">Uložit změny</button>
+    {% if request.user.is_staff %}
+        <button type="submit">Uložit změny</button>
+    {% else %}
+        <button type="submit">Navrhnout změny</button>
+    {% endif %}
 </form>
 
-<a href="{% url 'book_detail' book.id %}">Zpět na detail knihy</a>
+<a href="{% url 'book_detail' book.id %}">Zpět na detail</a>
 {% endblock %}

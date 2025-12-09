@@ -35,6 +35,11 @@
                 {% csrf_token %}
                 <button type="submit">Schválit změny</button>
             </form>
+
+            <form method="post" action="{% url 'reject_edit_book' book.id %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit">Zamítnout změny</button>
+            </form>
         </li>
     {% endfor %}
     </ul>

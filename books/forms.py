@@ -34,16 +34,30 @@ class BookForm(forms.ModelForm):
     # New authors can be added as text (one per line)
     new_authors = forms.CharField(
         required=False,
-        widget=forms.Textarea(attrs={'placeholder': 'Jméno a příjmení každého autora na nový řádek'}),
+        widget=forms.Textarea(attrs={'placeholder': 'Každý autor na nový řádek'}),
         label="Noví autoři"
     )
 
     class Meta:
         model = Book
-        fields = ["title", "year", "isbn", "publisher", "pages", "description", "genre"]
+        fields = [
+            "title", "year", "isbn", "publisher", "pages",
+            "description", "genre"
+        ]
         widgets = {
             "genre": forms.CheckboxSelectMultiple(),
         }
+
+    def __init__(self, *args, **kwargs):
+        """
+        When loading the form, it pre-populates existing_authors by book
+        but does not access the authors field directly!
+        """
+        super().__init__(*args, **kwargs)
+
+        if self.instance and self.instance.pk:
+            self.fields["existing_authors"].initial = self.instance.authors.all()
+
 
 class AuthorForm(forms.ModelForm):
     """

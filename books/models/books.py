@@ -10,11 +10,11 @@ class Book(models.Model):
     Model representing a book and its metadata.
     """
     title = models.CharField(max_length=100)
-    isbn = models.CharField(max_length=13, unique=True, verbose_name="ISBN", blank=True, null=True)
+    isbn = models.CharField(max_length=13, verbose_name="ISBN", blank=True, null=True)
     publisher = models.CharField(max_length=100, blank=True, null=True)
     pages = models.PositiveIntegerField(verbose_name="Number of pages", null=True, blank=True)
     year = models.IntegerField(
-        validators=[MinValueValidator(1900), MaxValueValidator(datetime.datetime.now().year)],
+        validators=[MinValueValidator(1800), MaxValueValidator(datetime.datetime.now().year)],
         null=True,
         blank=True
     )

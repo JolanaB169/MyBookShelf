@@ -12,7 +12,7 @@
         <option value="">-- žánr --</option>
         {% for g in genres %}
             <option value="{{ g.id }}"
-                {% if request.GET.genre == g.id|stringformat:"s" %} selected {% endif %}>
+                {% if request.GET.genre == g.id|stringformat:"s" %}selected{% endif %}>
                 {{ g.name }}
             </option>
         {% endfor %}
@@ -27,7 +27,6 @@
             </option>
         {% endfor %}
     </select>
-
 
     <select name="order">
         <option value="">-- Seřadit --</option>
@@ -44,23 +43,15 @@
 <div class="books">
     {% for book in books %}
         <div class="book-item">
-            <h3><a href="{{ book.get_detail_url }}">{{ book.title }}</a></h3>
 
             {% if book.image %}
-                <img src="{{ book.image.url }}" width="120">
+                <img src="{{ book.image.url }}" alt="" />
             {% endif %}
 
-            <p><strong>Autor:</strong>
-                {% for a in book.authors.all %}
-                    {{ a.first_name }} {{ a.last_name }}
-                    {% if not forloop.last %}, {% endif %}
-                {% endfor %}
-            </p>
-            <p><strong>Žánr:</strong>
-                {% for g in book.genre.all %} {{ g.name }}{% if not forloop.last %}, {% endif %}{% endfor %}
+            <h3><a href="{{ book.get_detail_url }}">{{ book.title }}</a></h3>
+
             </p>
         </div>
-        <hr>
     {% empty %}
         <p>Žádné knihy nenalezeny.</p>
     {% endfor %}
