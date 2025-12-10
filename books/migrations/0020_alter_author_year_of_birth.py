@@ -14,6 +14,9 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='author',
             name='year_of_birth',
-            field=models.IntegerField(blank=True, null=True, validators=[django.core.validators.MinValueValidator(1000), django.core.validators.MaxValueValidator(2025)]),
+            field=models.IntegerField(blank=True,
+                                      null=True,
+                                      validators=[django.core.validators.MinValueValidator(1000),
+                                                  django.core.validators.MaxValueValidator(2025)]),
         ),
     ]
