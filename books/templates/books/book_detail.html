@@ -1,115 +1,118 @@
 {% extends 'base.html' %}
 {% block content %}
-   <h1>{{ book.title|default:"Untitled" }}</h1>
 
-   <p><strong>Rok:</strong> {{ book.year|default:"N/A" }}</p>
-   <p><strong>ISBN:</strong> {{ book.isbn|default:"N/A" }}</p>
-   <p><strong>Nakladatelství:</strong> {{ book.publisher|default:"N/A" }}</p>
-   <p><strong>Stran:</strong> {{ book.pages|default:"N/A" }}</p>
+<div class="book-detail-wrapper">
 
-   <p><strong>Žánr:</strong>
-      {% if book.genre.exists %}
-        {% for genre in book.genre.all %}
-          <a href="{% url 'genre_books' genre_id=genre.id %}">{{ genre.name }}</a>{% if not forloop.last %}, {% endif %}
-        {% endfor %}
-      {% else %}
-        N/A
-      {% endif %}
-   </p>
+    <!-- LEVÝ SLUPEC – detail knihy -->
+    <div class="book-info">
+        <h1>{{ book.title|default:"Untitled" }}</h1>
 
-   <p><strong>Popis:</strong> {{ book.description|default:"No description available." }}</p>
+        <p><strong>Rok:</strong> {{ book.year|default:"N/A" }}</p>
+        <p><strong>ISBN:</strong> {{ book.isbn|default:"N/A" }}</p>
+        <p><strong>Nakladatelství:</strong> {{ book.publisher|default:"N/A" }}</p>
+        <p><strong>Stran:</strong> {{ book.pages|default:"N/A" }}</p>
 
-   <p><strong>Autor:</strong>
-     {% if book.authors.exists %}
-       {% for author in book.authors.all %}
-         <a href="{% url 'author_detail' author_name=author.first_name|add:" "|add:author.last_name %}">
-            {{ author.first_name }} {{ author.last_name }}
-         </a>{% if not forloop.last %}, {% endif %}
-       {% endfor %}
-     {% else %}
-       N/A
-     {% endif %}
-   </p>
-
-   {% if book.image %}
-     <div>
-       <h3>Obálka knihy:</h3>
-       <img src="{{ book.image.url }}" alt="{{ book.title }}" style="max-width:200px; height:auto;">
-     </div>
-   {% endif %}
-
-{% if user.is_authenticated %}
-    <h3>Nahrát obálku knihy:</h3>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <input type="file" name="image">
-        <button type="submit">Nahrát</button>
-    </form>
-
-    <a href="{% url 'edit_book' book.id %}">
-       <button type="button">Editovat knihu</button>
-    </a>
-{% endif %}
- {% if user.booklists.exists %}
-    <button id="toggle-lists-btn">Seznamy</button>
-
-    <div id="booklists-form" style="display:none; margin-top:10px;">
-
-        <!-- SEZNAMY, KDE JE KNIHA JIŽ PŘIDANÁ -->
-        <h4>Tato kniha je již v:</h4>
-        {% with lists_with_book=user_booklists|dictsort:"list.name" %}
-            {% if lists_with_book %}
-                <ul>
-                {% for bl in user_booklists %}
-                    {% if book.id in bl.book_ids %}
-                        <li>
-                            {{ bl.list.name }}
-                            <form method="post" action="{% url 'remove_book_from_list' bl.list.id book.id %}" style="display:inline;">
-                                {% csrf_token %}
-                                <button type="submit" style="color:red;">Odebrat</button>
-                            </form>
-                        </li>
-                    {% endif %}
+        <p><strong>Žánr:</strong>
+            {% if book.genre.exists %}
+                {% for genre in book.genre.all %}
+                    <a href="{% url 'genre_books' genre_id=genre.id %}">{{ genre.name }}</a>{% if not forloop.last %}, {% endif %}
                 {% endfor %}
-                </ul>
             {% else %}
-                <p>Kniha není v žádném z tvých seznamů.</p>
+                N/A
             {% endif %}
-        {% endwith %}
+        </p>
 
-        <hr>
+        <p><strong>Popis:</strong> {{ book.description|default:"No description available." }}</p>
 
-        <!-- PŘIDÁNÍ DO DALŠÍCH SEZNAMŮ -->
-        <h4>Přidat do seznamu:</h4>
-        <form method="post" action="{% url 'add_book_to_lists' book.id %}">
-            {% csrf_token %}
-            <label for="lists">Vyber seznam(y):</label><br>
-
-            <select name="booklists" id="lists" multiple size="5">
-                {% for bl in user_booklists %}
-                    {% if book.id not in bl.book_ids %}
-                        <option value="{{ bl.list.id }}">
-                            {{ bl.list.name }}
-                        </option>
-                    {% endif %}
+        <p><strong>Autor:</strong>
+            {% if book.authors.exists %}
+                {% for author in book.authors.all %}
+                    <a href="{% url 'author_detail' author_name=author.first_name|add:" "|add:author.last_name %}">
+                        {{ author.first_name }} {{ author.last_name }}
+                    </a>{% if not forloop.last %}, {% endif %}
                 {% endfor %}
-            </select>
+            {% else %}
+                N/A
+            {% endif %}
+        </p>
 
-            <br>
-            <button type="submit">Přidat</button>
-        </form>
+        {% if book.image %}
+            <div>
+                <img src="{{ book.image.url }}" alt="{{ book.title }}" class="book-cover">
+            </div>
+        {% endif %}
 
-        <p><a href="{% url 'create_booklist' %}">Vytvořit nový seznam</a></p>
+        {% if user.is_authenticated %}
+            <h3>Nahrát obálku knihy:</h3>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="file" name="image">
+                <button type="submit">Nahrát</button>
+            </form>
+
+            <a href="{% url 'edit_book' book.id %}">
+               <button type="button">Editovat knihu</button>
+            </a>
+        {% endif %}
     </div>
 
-    <script>
-        document.getElementById('toggle-lists-btn').onclick = function() {
-            const div = document.getElementById('booklists-form');
-            div.style.display = div.style.display === 'none' ? 'block' : 'none';
-        };
-    </script>
+    <!-- PRAVÝ SLUPEC – seznamy knih -->
+    {% if user.booklists.exists %}
+    <div class="booklists-wrapper">
+        <button id="toggle-lists-btn" class="toggle-btn">Seznamy</button>
 
-{% endif %}
+        <div id="booklists-form" class="booklists-form">
+
+            <!-- EXISTUJÍCÍ SEZNAMY -->
+            <div class="existing-lists">
+                <h4>Tato kniha je již v:</h4>
+                <div class="tags-container">
+                    {% for bl in user_booklists %}
+                        {% if book.id in bl.book_ids %}
+                            <span class="tag">
+                                {{ bl.list.name }}
+                                <form method="post" action="{% url 'remove_book_from_list' bl.list.id book.id %}" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="remove-tag-btn">&times;</button>
+                                </form>
+                            </span>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <hr>
+
+            <!-- PŘIDÁNÍ DO DALŠÍCH SEZNAMŮ -->
+            <div class="add-to-lists">
+                <h4>Přidat do seznamu:</h4>
+                <form method="post" action="{% url 'add_book_to_lists' book.id %}">
+                    {% csrf_token %}
+                    <div class="scrollable-select">
+                        {% for bl in user_booklists %}
+                            {% if book.id not in bl.book_ids %}
+                                <label class="checkbox-tag">
+                                    <input type="checkbox" name="booklists" value="{{ bl.list.id }}">
+                                    {{ bl.list.name }}
+                                </label>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <button type="submit" class="add-btn">Přidat</button>
+                </form>
+                <p><a href="{% url 'create_booklist' %}">Vytvořit nový seznam</a></p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+document.getElementById('toggle-lists-btn')?.addEventListener('click', function() {
+    const div = document.getElementById('booklists-form');
+    div.style.display = div.style.display === 'none' || div.style.display === '' ? 'block' : 'none';
+});
+</script>
 
 {% if user.is_staff and book.pending_edit %}
     <form method="post" action="{% url 'approve_edit_book' book.id %}">

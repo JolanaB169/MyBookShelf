@@ -13,4 +13,4 @@ def remove_book_from_list(request, list_id, book_id):
 
     item.delete()
     messages.success(request, "Kniha byla odebrána ze seznamu.")
-    return redirect("booklist/booklist_detail", list_id=list_id)
+    return redirect("booklist_detail", list_id=list_id)

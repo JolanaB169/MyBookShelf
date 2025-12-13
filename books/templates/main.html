@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
-    <h1>Hello Readers!</h1>
+    <div class="homepage">
+        <h1>Ahoj knihomolové!</h1>
+        <p>Objevujte knihy, sledujte své oblíbené autory a vytvářejte si vlastní seznamy knih.</p>
+        <img src="{% static 'images/uvod.jpg' %}" alt="Bookshelf" style="max-width:100%; height:auto;">
+    </div>
 {% endblock %}

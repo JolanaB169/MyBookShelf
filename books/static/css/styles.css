@@ -1,35 +1,46 @@
-/* ===========================
-   Reset
-=========================== */
-body, h1, h2, h3, p, ul, li {
+/* -----------------------------
+   1. Reset a základní styly
+----------------------------- */
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Arial', sans-serif;
     line-height: 1.6;
-    background-color: #f4f4f4;
+    background-color: #f9f9f9;
     color: #333;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-/* ===========================
-   Header
-=========================== */
+/* -----------------------------
+   2. Header / navigace
+----------------------------- */
 .site-header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px 20px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* menu vlevo, auth vpravo */
     align-items: center;
-    padding: 10px 20px;
-    background-color: #00509e;
-    color: #fff;
+    flex-wrap: wrap; /* pro malé obrazovky */
+}
+
+.main-menu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .main-menu a {
-    margin-right: 15px;
+    color: white;
     text-decoration: none;
-    color: #ffd700;
-    font-weight: 500;
+    font-weight: bold;
+    margin: 0 5px;
 }
 
 .main-menu a:hover {
@@ -39,100 +50,396 @@ body {
 .auth-links {
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-weight: 500;
-    color: #ffd700;
+    gap: 5px;
 }
 
 .auth-links a {
+    color: white;
     text-decoration: none;
-    color: #ffd700;
+    font-weight: bold;
 }
 
 .auth-links a:hover {
     text-decoration: underline;
 }
 
-/* ===========================
-   Buttons
-=========================== */
-.btn-back {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #007BFF;
-    color: #fff;
-    text-decoration: none;
-    font-weight: bold;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
+.auth-links .welcome {
+    margin-right: 5px;
+    font-style: italic;
+}
+
+/* -----------------------------
+   3. Footer
+----------------------------- */
+footer {
+    text-align: center;
+    padding: 15px;
+    background-color: #4CAF50; /* zelená jako header */
+    color: white;
+    margin-top: auto; /* push footer dolů */
+}
+
+/* -----------------------------
+   4. Globální elementy
+----------------------------- */
+h1, h2, h3, h4 {
+    color: #333;
     margin-bottom: 15px;
 }
 
-.btn-back:hover {
-    background-color: #0056b3;
+p {
+    color: #555;
+    margin-bottom: 15px;
 }
 
-/* ===========================
-   Main content
-=========================== */
-main {
-    max-width: 1000px;
-    margin: 20px auto;
-    background-color: #fff;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+/* -----------------------------
+   5. Formuláře a tlačítka
+----------------------------- */
+input, select, textarea, button {
+    margin-bottom: 10px;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 0.95rem;
+}
+
+button, input[type="submit"] {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    cursor: pointer;
     border-radius: 5px;
 }
 
-/* ===========================
-   Book list
-=========================== */
+button:hover, input[type="submit"]:hover {
+    background-color: #45a049;
+}
 
+/* -----------------------------
+   6. Wrapper pro vycentrování obsahu (pro všechny stránky)
+----------------------------- */
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;      /* horizontální centrování */
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* -----------------------------
+   7. Boxy obsahu (homepage, seznam, detail, profil, další)
+----------------------------- */
+.homepage,
+.book-list,
+.book-detail,
+.profile-page,
+.other-page {
+    width: 100%;
+    max-width: 900px;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 30px 20px;
+    margin: 20px auto; /* horizontální centrování */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    text-align: center;
+}
+
+.homepage h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.homepage p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+}
+
+.homepage img {
+    max-width: 80%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* -----------------------------
+   8. Seznam knih (books)
+----------------------------- */
 .books {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 20px;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
 .book-item {
     background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    border-radius: 10px;
     padding: 15px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .book-item:hover {
     transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
 }
 
 .book-item img {
-    width: 100%;
-    max-height: 180px;
-    object-fit: cover;
+    max-width: 150px;
+    height: auto;
+    margin-bottom: 10px;
     border-radius: 5px;
+}
+
+.book-item h3 {
+    font-size: 1.1rem;
+    margin: 10px 0;
+}
+
+.book-item h3 a {
+    color: #333;
+    text-decoration: none;
+}
+
+.book-item h3 a:hover {
+    color: #4CAF50;
+    text-decoration: underline;
+}
+
+/* -----------------------------
+   9. Images
+----------------------------- */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 10px 0;
+}
+
+/* -----------------------------
+   10. Tables
+----------------------------- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+th {
+    background-color: #f2f2f2;
+    text-align: left;
+}
+
+/* -----------------------------
+   11. Filter form (Seznam knih)
+----------------------------- */
+.filter-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center; /* centrování formuláře */
+    margin-bottom: 20px;
+    background-color: #f2f2f2;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.filter-form input,
+.filter-form select,
+.filter-form button,
+.filter-form a {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 0.95rem;
+}
+
+.filter-form button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.filter-form button:hover {
+    background-color: #45a049;
+}
+
+.filter-form a {
+    text-decoration: none;
+    color: #333;
+    background-color: #ddd;
+}
+
+.filter-form a:hover {
+    background-color: #ccc;
+}
+
+/* -----------------------------
+   12. Responsive pro mobil
+----------------------------- */
+@media (max-width: 768px) {
+    .homepage,
+    .book-list,
+    .book-detail,
+    .content-wrapper,
+    .profile-page,
+    .other-page {
+        padding: 20px;
+        margin: 10px auto;
+    }
+
+    .site-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .auth-links {
+        margin-top: 10px;
+    }
+
+    .main-menu a {
+        display: block;
+        margin: 5px 0;
+    }
+
+    .books {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 15px;
+    }
+
+    .book-item img {
+        max-width: 120px;
+    }
+}
+
+/* -----------------------------
+   13. Detail knihy – layout vedle sebe
+----------------------------- */
+.book-detail-wrapper {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto 30px auto;
+}
+
+.book-info {
+    flex: 1 1 60%;
+}
+
+.booklists-wrapper {
+    flex: 1 1 35%;
+}
+
+.booklists-form {
+    display: none;
+    margin-top: 10px;
+}
+
+#toggle-lists-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
     margin-bottom: 10px;
 }
 
-/* ===========================
-   Footer
-=========================== */
-.site-footer {
-    background-color: #00509e;
-    color: #ffd700;
-    text-align: center;
-    padding: 15px 0;
-    margin-top: 40px;
-    font-size: 14px;
+#toggle-lists-btn:hover {
+    background-color: #45a049;
 }
 
-.site-footer a {
-    color: #ffd700;
-    text-decoration: none;
-    font-weight: 500;
+/* -----------------------------
+   14. Tagy a odstranění knihy ze seznamu
+----------------------------- */
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
 }
 
-.site-footer a:hover {
-    text-decoration: underline;
+.tag {
+    background-color: #e0e0e0;
+    border-radius: 20px;
+    padding: 5px 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.9rem;
+}
+
+.remove-tag-btn {
+    background: none;
+    border: none;
+    color: red;
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: 1;
+}
+
+/* -----------------------------
+   15. Rolovatelný výběr seznamů
+----------------------------- */
+.scrollable-select {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #fafafa;
+}
+
+.checkbox-tag {
+    display: block;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+.add-btn {
+    margin-top: 10px;
+}
+
+/* -----------------------------
+   16. Obrázky knih
+----------------------------- */
+.book-cover {
+    max-width: 200px;
+    height: auto;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+/* -----------------------------
+   17. Responsive pro mobil
+----------------------------- */
+@media (max-width: 768px) {
+    .book-detail-wrapper {
+        flex-direction: column;
+    }
+
+    .book-info, .booklists-wrapper {
+        flex: 1 1 100%;
+    }
+
+    .book-cover {
+        max-width: 100%;
+    }
+
+    #toggle-lists-btn {
+        width: 100%;
+    }
 }

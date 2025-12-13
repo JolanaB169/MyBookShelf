@@ -30,4 +30,4 @@ def add_book_to_lists(request, book_id):
         else:
             messages.info(request, "Kniha byla již ve vybraných seznamech.")
 
-    return redirect("books/book_detail", book_id=book.id)
+    return redirect("book_detail", book_id=book.id)

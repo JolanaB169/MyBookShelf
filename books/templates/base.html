@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyBookShelf</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}?v={{ timestamp }}">
 </head>
 <body>
     {% include 'header.html' %}
 
     <main>
+        <div class="content-wrapper">
         {% block content %}
         {% endblock %}
     </main>
