@@ -12,7 +12,7 @@ class UserProfile(models.Model):
     favorite_genres = models.ManyToManyField(Genre, blank=True, related_name="fans")
     preferred_authors = models.ManyToManyField(Author, blank=True, related_name="followers")
     reading_goal = models.PositiveIntegerField(
-        null=True, blank=True, help_text="How many books the user plans to read this year"
+        null=True, blank=True, help_text="Kolik knih plánuješ letos přečíst"
     )
 
     def __str__(self):
