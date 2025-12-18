@@ -94,6 +94,7 @@ def edit_book_view(request, book_id):
             book.pending_edit = True
             if not book.created_by:
                 book.created_by = request.user
+            book.edit_proposed_by = request.user
             book.save()
             messages.info(request, "Změny byly odeslány ke schválení.")
 

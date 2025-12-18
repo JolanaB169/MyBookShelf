@@ -8,8 +8,8 @@
         <li>
             <strong>{{ book.title }}</strong>
             od
-            {% if book.created_by %}
-                {{ book.created_by.username }}
+            {% if book.edit_proposed_by %}
+                {{ book.edit_proposed_by.username }}
             {% else %}
                 unknown
             {% endif %}

@@ -32,7 +32,8 @@ class Book(models.Model):
 
     pending_edit = models.BooleanField(default=False)
     pending_data = models.JSONField(null=True, blank=True)
-    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name="books_created")
+    edit_proposed_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name="books_edit_proposed")
 
     def __str__(self):
         return self.title
