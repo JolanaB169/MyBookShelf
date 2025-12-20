@@ -13,9 +13,9 @@ def add_author_view(request):
     if request.method == "POST":
         form = AuthorForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            author = form.save()
             messages.success(request, "Autor byl úspěšně přidán.")
-            return redirect("book_list")
+            return redirect("author_detail", pk=author.pk)
     else:
         form = AuthorForm()
 

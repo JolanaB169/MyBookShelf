@@ -48,7 +48,7 @@ urlpatterns = [
     path('books/pending-edits/', pending_edits_view, name='pending_edits'),
 
     # --- Authors ---
-    path('author/<str:author_name>/', author_detail_view, name='author_detail'),
+    path('author/<int:pk>/', author_detail_view, name='author_detail'),
     path('author-search/', search_author_view, name='author_search'),
     path('edit_author/<int:author_id>/edit/', edit_author_view, name='edit_author'),
     path('authors/add/', add_author_view, name='add_author'),

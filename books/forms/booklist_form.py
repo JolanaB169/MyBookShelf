@@ -3,7 +3,7 @@ from books.models import BookList
 
 
 class BookListForm(forms.ModelForm):
-    """Formulář pro vytvoření nebo úpravu uživatelského seznamu knih."""
+    """Form for creating or editing a user's book list."""
     class Meta:
         model = BookList
         fields = ["name"]
