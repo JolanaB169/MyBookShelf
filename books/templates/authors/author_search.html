@@ -13,7 +13,7 @@
     <ul>
 {% for author in results %}
     <li>
-        <a href="{% url 'author_detail' author_name=author.first_name|add:" "|add:author.last_name %}">
+        <a href="{% url 'author_detail' pk=author.pk %}">
             {{ author.first_name }} {{ author.last_name }}
         </a>
     </li>

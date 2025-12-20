@@ -14,7 +14,7 @@ def edit_author_view(request, author_id):
         form = AuthorForm(request.POST, request.FILES, instance=author)
         if form.is_valid():
             form.save()
-            return redirect("author_detail", author_name=f"{author.first_name} {author.last_name}")
+            return redirect("author_detail", pk=author.pk)
     else:
         form = AuthorForm(instance=author)
 

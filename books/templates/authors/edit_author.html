@@ -8,5 +8,5 @@
     <button type="submit">Uložit změny</button>
 </form>
 
-<a href="{% url 'author_detail' author_name=author.first_name|add:' '|add:author.last_name %}">Zpět na detail autora</a>
+<a href="{% url 'author_detail' pk=author.pk %}">Zpět na detail autora</a>
 {% endblock %}

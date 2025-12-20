@@ -20,4 +20,4 @@ def favorite_author(request, author_id):
     else:
         profile.preferred_authors.add(author)
 
-    return redirect('author_detail', author_name=f"{author.first_name} {author.last_name}")
+    return redirect('author_detail', pk=author.pk)

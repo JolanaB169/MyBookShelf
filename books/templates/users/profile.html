@@ -35,7 +35,7 @@
             {% if profile.preferred_authors.exists %}
                 <ul>
                     {% for author in profile.preferred_authors.all %}
-                    <a href="{% url 'author_detail' author_name=author.first_name|add:" "|add:author.last_name %}">
+                    <a href="{% url 'author_detail' pk=author.pk %}">
                     {{ author.first_name }} {{ author.last_name }}
                     </a>{% if not forloop.last %}, {% endif %}
                     {% endfor %}

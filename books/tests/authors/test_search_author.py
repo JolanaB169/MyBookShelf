@@ -47,7 +47,7 @@ def test_author_search_links(client, author):
     # Check that the link points to the correct author detail page
     expected_url = reverse(
         "author_detail",
-        kwargs={"author_name": f"{author.first_name} {author.last_name}"}
+        kwargs={"pk": author.pk}
     )
     assert expected_url in content
 

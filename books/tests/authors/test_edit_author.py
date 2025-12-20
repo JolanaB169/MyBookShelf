@@ -11,7 +11,7 @@ def test_edit_author_get(client, author):
     user = User.objects.create_user(username="testuser", password="12345")
     client.force_login(user)
 
-    url = reverse("edit_author", kwargs={"author_id": author.id})
+    url = reverse("edit_author", kwargs={"author_id": author.pk})
     response = client.get(url)
 
     assert response.status_code == 200
@@ -27,7 +27,7 @@ def test_edit_author_post(client, author):
     user = User.objects.create_user(username="testuser", password="12345")
     client.force_login(user)
 
-    url = reverse("edit_author", kwargs={"author_id": author.id})
+    url = reverse("edit_author", kwargs={"author_id": author.pk})
     data = {
         "first_name": "Jane",
         "last_name": author.last_name,
@@ -50,7 +50,7 @@ def test_author_detail_html(client, author):
     Test that the 'author_detail' view renders the author's details
     correctly in the HTML content.
     """
-    url = reverse("author_detail", kwargs={"author_name": f"{author.first_name} {author.last_name}"})
+    url = reverse("author_detail", kwargs={"pk": author.pk})
     response = client.get(url)
 
     assert response.status_code == 200
@@ -60,9 +60,9 @@ def test_author_detail_html(client, author):
     assert author.last_name in content
     if author.year_of_birth:
         assert str(author.year_of_birth) in content
-    if author.year_of_death:
+    if getattr(author, "year_of_death", None):
         assert str(author.year_of_death) in content
-    if author.country:
+    if getattr(author, "country", None):
         assert author.country in content
-    if author.biography:
+    if getattr(author, "biography", None):
         assert author.biography in content
